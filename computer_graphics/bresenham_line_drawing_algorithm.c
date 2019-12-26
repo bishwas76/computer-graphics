@@ -8,8 +8,8 @@ void BRESENHAM_LINE_negative_m(int x1, int y1, int x2, int y2){
     int gd = DETECT, gm;
     initgraph(&gd, &gm, NULL);
     float dx, dy, P0, Pk, k, x0, y0, X, Y;
-    dx = x2 - x1;
-	dy = y2 - y1;
+    dx = abs(x2 - x1);
+	dy = abs(y2 - y1);
 
     // initial decision parameter
 
