@@ -2,14 +2,12 @@
 #include<graphics.h>
 #include<math.h>
 
-//for the line having negative slope
-
-void BRESENHAM_LINE_negative_m(int x1, int y1, int x2, int y2){
+void BRESENHAM_LINE_neg_m(int x1, int y1, int x2, int y2){
     int gd = DETECT, gm;
     initgraph(&gd, &gm, NULL);
-    float dx, dy, P0, Pk, k, x0, y0, X, Y;
-    dx = abs(x2 - x1);
-	dy = abs(y2 - y1);
+    int dx, dy, P0, Pk, k, x0, y0, X, Y;
+    dx = (x2 - x1);
+	dy = (y2 - y1);
 
     // initial decision parameter
 
@@ -26,45 +24,43 @@ void BRESENHAM_LINE_negative_m(int x1, int y1, int x2, int y2){
             Y = Y;
             Pk = Pk + 2*dy;
         }
-        else if(Pk > 0){
+        else{
             X = X + 1;
-            Y = Y + 1;
+            Y = Y - 1;
             Pk = Pk + 2*(dy - dx);
         }
-        delay(2);
+        delay(20);
     }
 }
 
-//for line having positive slope
-
-void BRESENHAM_LINE_positive_m(int x1, int y1, int x2, int y2){
+void BRESENHAM_LINE_pos_m(int x1, int y1, int x2, int y2){
     int gd = DETECT, gm;
     initgraph(&gd, &gm, NULL);
-    float dx, dy, P0, Pk, k, x0, y0, X, Y;
-    dx = x2 - x1;
-	dy = y2 - y1;
+    int dx, dy, P0, Pk, k, x0, y0, X, Y;
+    dx = (x2 - x1);
+	dy = (y2 - y1);
 
     // initial decision parameter
 
-    P0 = 2*dx - dy;
+    P0 = 2*dy - dx;
     Pk = P0;
 
     X = x1;
     Y = y1;
 
-    for(k = 0; k < dy; k++){
+    for(k = 0; k < dx; k++){
         putpixel((int)X, (int)Y, WHITE);
         if (Pk <= 0){
-            Y = Y + 1;
-            X = X;
-            Pk = Pk + 2*dx;
+            X = X + 1;
+            Y = Y;
+            Pk = Pk + 2*dy;
         }
-        else if(Pk > 0){
+        else{
             X = X + 1;
             Y = Y + 1;
-            Pk = Pk + 2*(dx - dy);
+            Pk = Pk + 2*(dy - dx);
         }
-        delay(2);
+        delay(20);
     }
 }
 
@@ -73,14 +69,10 @@ int main(){
     printf("Enter two end points: ");
     scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
     slope_m = (y2 - y1)/(x2 - x1);
-    if(slope_m > 1){
-        BRESENHAM_LINE_positive_m(x1, y1, x2, y2);
-    }
-    if(slope_m <= 1){
-        BRESENHAM_LINE_negative_m(x1, y1, x2, y2);
-    }
+    BRESENHAM_LINE_neg_m(x1, y1, x2, y2);
+    BRESENHAM_LINE_pos_m(x1, y1, x2, y2);
     printf("Press any key to exit");
     getch();
+    closegraph();
     return 0;
-    closegraph(); 
 }
